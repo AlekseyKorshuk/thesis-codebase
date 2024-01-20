@@ -1,4 +1,4 @@
-base_model: microsoft/phi-2
+base_model: stabilityai/stable-code-3b
 model_type: AutoModelForCausalLM
 tokenizer_type: AutoTokenizer
 trust_remote_code: true
@@ -16,7 +16,7 @@ datasets:
 
 dataset_prepared_path:
 val_set_size: 0.001
-output_dir: ./phi-sft-out
+output_dir: ./output
 
 sequence_len: 2048
 sample_packing: false  # currently unsupported
@@ -45,7 +45,7 @@ adam_epsilon: 0.00001
 #max_grad_norm: 1.0
 lr_scheduler: cosine
 learning_rate: 1e-5
-warmup_ratio: 0.03
+warmup_steps: 4
 weight_decay: 0.01
 
 train_on_inputs: false
