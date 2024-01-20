@@ -21,16 +21,12 @@ sequence_len: 2048
 sample_packing: false  # currently unsupported
 pad_to_sequence_len:
 
-adapter:
-lora_model_dir:
-lora_r: 16
-lora_alpha: 32
-lora_dropout: 0.1
+lora_r:
+lora_alpha:
+lora_dropout:
+lora_target_modules:
 lora_target_linear: true
 lora_fan_in_fan_out:
-lora_modules_to_save:
-  - embd
-  - lm_head
 
 wandb_project:
 wandb_entity:
