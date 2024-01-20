@@ -1,11 +1,11 @@
-base_model: microsoft/phi-1_5
+base_model: microsoft/phi-2
+model_revision: 834565c  # pin model repo to the previous architecture
 model_type: AutoModelForCausalLM
 tokenizer_type: AutoTokenizer
-is_llama_derived_model: false
 trust_remote_code: true
 
 load_in_8bit: false
-load_in_4bit: true
+load_in_4bit: false
 strict: false
 
 datasets:
@@ -14,20 +14,23 @@ datasets:
     conversation: chatml
 
 dataset_prepared_path:
-val_set_size: 0
+val_set_size: 0.05
 output_dir: ./phi-sft-out
 
-sequence_len: 1024
-sample_packing: false  # not CURRENTLY compatible with LoRAs
+sequence_len: 2048
+sample_packing: false  # currently unsupported
 pad_to_sequence_len:
 
-adapter: qlora
+adapter:
 lora_model_dir:
-lora_r: 64
+lora_r: 16
 lora_alpha: 32
-lora_dropout: 0.05
+lora_dropout: 0.1
 lora_target_linear: true
 lora_fan_in_fan_out:
+lora_modules_to_save:
+  - embd
+  - lm_head
 
 wandb_project:
 wandb_entity:
@@ -38,26 +41,26 @@ wandb_log_model:
 gradient_accumulation_steps: 1
 micro_batch_size: 1
 num_epochs: 4
-optimizer: adamw_torch
+optimizer: paged_adamw_8bit
 adam_beta2: 0.95
 adam_epsilon: 0.00001
 max_grad_norm: 1.0
 lr_scheduler: cosine
-learning_rate: 0.000003
+learning_rate: 1e-5
 
 train_on_inputs: false
-group_by_length: true
+group_by_length: false
 bf16: true
 fp16: false
 tf32: true
 
-gradient_checkpointing:
+gradient_checkpointing: true
 early_stopping_patience:
 resume_from_checkpoint:
 local_rank:
 logging_steps: 1
 xformers_attention:
-flash_attention:
+flash_attention: true
 
 warmup_steps: 100
 evals_per_epoch: 4
@@ -69,7 +72,4 @@ fsdp:
 fsdp_config:
 resize_token_embeddings_to_32x: true
 special_tokens:
-  bos_token: "<|endoftext|>"
-  eos_token: "<|endoftext|>"
-  unk_token: "<|endoftext|>"
   pad_token: "<|endoftext|>"
