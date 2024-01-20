@@ -74,3 +74,5 @@ fsdp_config:
 resize_token_embeddings_to_32x: true
 special_tokens:
   pad_token: "<|endoftext|>"
+  eos_token: "<|im_end|>"
+  bos_token: "<|im_start|>"
