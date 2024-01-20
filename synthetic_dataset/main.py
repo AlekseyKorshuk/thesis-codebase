@@ -82,15 +82,15 @@ def push_to_hub(resulting_dataset, config):
     def _process(sample):
         new_sample = {
             "conversations": [
-                {"from": "user", "value": sample["instruction"]},
-                {"from": "assistant", "value": sample["better_response"]},
+                {"from": "human", "value": sample["instruction"]},
+                {"from": "gpt", "value": sample["better_response"]},
             ]
         }
         return new_sample
 
     sharegpt_dataset = resulting_dataset.map(_process, num_proc=config["num_cpus"])
     sharegpt_dataset = sharegpt_dataset.remove_columns(list(resulting_dataset[0].keys()))
-    sharegpt_dataset.push_to_hub(config["dataset_path"] + "-chatml", private=True)
+    sharegpt_dataset.push_to_hub(config["dataset_path"] + "-sharegpt", private=True)
 
 
 if __name__ == "__main__":
