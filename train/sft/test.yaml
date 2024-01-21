@@ -4,6 +4,7 @@ tokenizer_type: AutoTokenizer
 trust_remote_code: true
 
 hub_model_id: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt-test
+hub_strategy: every_save
 
 load_in_8bit: false
 load_in_4bit: false
@@ -37,15 +38,16 @@ wandb_log_model:
 
 gradient_accumulation_steps: 1
 micro_batch_size: 16
-num_epochs: 3
+num_epochs: 1
 optimizer: paged_adamw_8bit
 adam_beta1: 0.9
 adam_beta2: 0.95
 adam_epsilon: 0.00001
-#max_grad_norm: 1.0
 lr_scheduler: cosine
+cosine_min_lr_ratio: 0.1
 learning_rate: 2e-5
-warmup_steps: 4
+#warmup_steps: 4
+warmup_ratio: 0.1
 weight_decay: 0.01
 
 train_on_inputs: false
@@ -68,8 +70,10 @@ evals_per_epoch: 1
 eval_table_size: 8 # Approximate number of predictions sent to wandb depending on batch size. Enabled above 0. Default is 0
 eval_table_max_new_tokens: 768 # Total number of tokens generated for predictions sent to wandb. Default is 128
 
+chat_template: chatml
 saves_per_epoch: 1
 save_total_limit: 1
+seed: 42
 debug:
 deepspeed:
 

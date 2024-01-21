@@ -33,32 +33,29 @@ def run_sample_generation(config: Dict[str, Any]):
     process_function = partial(process_sample, config=config)
     os.makedirs(config["output_path"], exist_ok=True)
     ds = ds.map(process_function, num_proc=config["num_cpus"])
-    ds = ds.filter(lambda example: example["better_response"] is not None)
+    ds = ds.filter(lambda example: example["better_response"] is not None and example["better_response"] != "")
     return ds
 
 
 def process_sample(sample, config):
     sample_hash = utils.hash_sample(sample)
     output_file_path = os.path.join(config["output_path"], f"{sample_hash}.json")
+    json_data = None
     if os.path.exists(output_file_path):
         with open(output_file_path) as json_file:
             json_data = json.load(json_file)
-        return json_data
-
-    return {
-        "worse_response": None,
-        "better_response": None
-    }
-
-    worse_response, better_response = generate_completion(
-        sample["instruction"],
-        sample["response"],
-        config
-    )
-    json_data = {
-        "worse_response": worse_response,
-        "better_response": better_response
-    }
+    # else:
+    #     json_data = {
+    #         "better_response": None,
+    #         "worse_response": None,
+    #     }
+    # return json_data
+    if json_data is None or json_data["better_response"] == "":
+        json_data = generate_completion(
+            sample["instruction"],
+            sample["response"],
+            config
+        )
     with open(output_file_path, "w") as outfile:
         json.dump(json_data, outfile)
     return json_data
@@ -71,9 +68,11 @@ def generate_completion(instruction, response, config):
         {"role": "user", "content": json.dumps(user_content, indent=1)}
     ]
     decoding_args = OpenAIDecodingArguments(**config["openai_generation_params"], api_key=random.choice(OPENAI_KEYS))
-    openai_content = openai_completion(messages, decoding_args, config["model_name"], SLEEP_TIME)
-    json_response = json.loads(openai_content)
-    return json_response["worse_response"], json_response["better_response"]
+    json_response = None
+    while json_response is None or json_response["better_response"] == "":
+        openai_content = openai_completion(messages, decoding_args, config["model_name"], SLEEP_TIME)
+        json_response = json.loads(openai_content)
+    return json_response
 
 
 def push_to_hub(resulting_dataset, config):

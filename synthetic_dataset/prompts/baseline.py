@@ -31,6 +31,7 @@ Ideas to make response better:
 - etc.
 
 Rules:
+- Keep both `worse_response` and `better_response` in Helpful Assistant tone! Do not be rude, sarcastic, etc.
 - Do not mention that this is improved response or with mistake -- we will use this for training with preference dataset!
 - I will tip you 200$ for your ideal solution to the given task!
 """
