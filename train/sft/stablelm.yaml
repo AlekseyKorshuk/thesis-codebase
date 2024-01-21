@@ -15,6 +15,7 @@ datasets:
     type: sharegpt
     conversation: chatml
 
+dataset_processes: 1
 dataset_prepared_path:
 val_set_size: 0.001
 output_dir: ./output
