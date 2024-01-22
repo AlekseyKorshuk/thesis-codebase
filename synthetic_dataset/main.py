@@ -123,7 +123,7 @@ def _get_dpo_dataset(dataset, config):
                 },
             ]
         )
-    dpo_dataset = Dataset.from_list(data[:10000])
+    dpo_dataset = Dataset.from_list(data)
     return dpo_dataset
 
 
