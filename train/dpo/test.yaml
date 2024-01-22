@@ -22,7 +22,7 @@ dataset_prepared_path:
 output_dir: ./output
 
 sequence_len: 2048
-sample_packing: false  # currently unsupported
+#sample_packing: false  # currently unsupported
 pad_to_sequence_len:
 
 lora_r:
