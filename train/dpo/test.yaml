@@ -75,7 +75,7 @@ eval_table_size: 8 # Approximate number of predictions sent to wandb depending o
 eval_table_max_new_tokens: 768 # Total number of tokens generated for predictions sent to wandb. Default is 128
 
 chat_template: chatml
-saves_per_epoch: 1
+save_steps: 1.0
 save_total_limit: 1
 seed: 42
 debug:
