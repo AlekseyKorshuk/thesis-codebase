@@ -49,7 +49,8 @@ adam_epsilon: 0.00001
 lr_scheduler: cosine
 cosine_min_lr_ratio: 0.1
 learning_rate: 5.0e-7
-warmup_ratio: 0.1
+#warmup_ratio: 0.1
+warmup_steps: 10
 weight_decay: 0.01
 dpo_beta: 0.01
 
