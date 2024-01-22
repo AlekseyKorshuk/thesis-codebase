@@ -18,7 +18,7 @@ datasets:
 
 
 dataset_prepared_path:
-val_set_size: 0
+val_set_size: 0.001
 output_dir: ./output
 
 sequence_len: 2048
