@@ -1,6 +1,6 @@
 seed_dataset_path: "AlekseyKorshuk/evol-codealpaca-seed"
-output_path: "./experiments/baseline/output/"
-dataset_path: "AlekseyKorshuk/evol-codealpaca"
+output_path: "./experiments/v1/output/"
+dataset_path: "AlekseyKorshuk/evol-codealpaca-v1"
 model_name: "gpt-4-1106-preview"
 num_cpus: 25
 openai_generation_params:

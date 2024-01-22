@@ -5,7 +5,8 @@ from functools import partial
 from typing import Any, Dict
 
 import click
-from datasets import load_dataset
+import tqdm
+from datasets import Dataset, load_dataset
 
 from utils import utils
 from utils.openai_utils import openai_completion, OpenAIDecodingArguments
@@ -44,12 +45,12 @@ def process_sample(sample, config):
     if os.path.exists(output_file_path):
         with open(output_file_path) as json_file:
             json_data = json.load(json_file)
-    # else:
-    #     json_data = {
-    #         "better_response": None,
-    #         "worse_response": None,
-    #     }
-    # return json_data
+    else:
+        json_data = {
+            "better_response": None,
+            "worse_response": None,
+        }
+    return json_data
     if json_data is None or json_data["better_response"] == "":
         json_data = generate_completion(
             sample["instruction"],
@@ -75,9 +76,17 @@ def generate_completion(instruction, response, config):
     return json_response
 
 
-def push_to_hub(resulting_dataset, config):
-    resulting_dataset.push_to_hub(config["dataset_path"], private=True)
+def push_to_hub(dataset, config):
+    dataset.push_to_hub(config["dataset_path"], private=True)
 
+    sft_dataset = _get_sft_dataset(dataset, config)
+    sft_dataset.push_to_hub(config["dataset_path"] + "-sft", private=True)
+
+    dpo_dataset = _get_dpo_dataset(dataset, config)
+    dpo_dataset.push_to_hub(config["dataset_path"] + "-dpo", private=True)
+
+
+def _get_sft_dataset(dataset, config):
     def _process(sample):
         new_sample = {
             "conversations": [
@@ -87,9 +96,36 @@ def push_to_hub(resulting_dataset, config):
         }
         return new_sample
 
-    sharegpt_dataset = resulting_dataset.map(_process, num_proc=config["num_cpus"])
-    sharegpt_dataset = sharegpt_dataset.remove_columns(list(resulting_dataset[0].keys()))
-    sharegpt_dataset.push_to_hub(config["dataset_path"] + "-sharegpt", private=True)
+    sft_dataset = dataset.map(_process, num_proc=config["num_cpus"], desc="Collecting SFT dataset")
+    sft_dataset = sft_dataset.remove_columns(list(dataset[0].keys()))
+    return sft_dataset
+
+
+def _get_dpo_dataset(dataset, config):
+    data = []
+    for sample in tqdm.tqdm(dataset, desc="Collecting DPO dataset"):
+        instruction = sample["instruction"]
+        data.extend(
+            [
+                {
+                    "instruction": instruction,
+                    "chosen_response": sample["better_response"],
+                    "rejected_response": sample["response"],
+                },
+                {
+                    "instruction": instruction,
+                    "chosen_response": sample["better_response"],
+                    "rejected_response": sample["worse_response"],
+                },
+                {
+                    "instruction": instruction,
+                    "chosen_response": sample["response"],
+                    "rejected_response": sample["worse_response"],
+                },
+            ]
+        )
+    dpo_dataset = Dataset.from_list(data)
+    return dpo_dataset
 
 
 if __name__ == "__main__":
