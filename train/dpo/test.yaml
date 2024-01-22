@@ -77,7 +77,8 @@ eval_table_max_new_tokens: 768 # Total number of tokens generated for prediction
 
 chat_template: chatml
 save_strategy: steps
-save_total_limit: 1000
+save_steps: 1000
+save_total_limit: 1
 seed: 42
 debug:
 deepspeed:
