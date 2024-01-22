@@ -18,7 +18,7 @@ datasets:
 
 
 dataset_prepared_path:
-val_set_size: 0
+#val_set_size: 0
 output_dir: ./output
 
 sequence_len: 2048
@@ -76,12 +76,12 @@ flash_attention: true
 #eval_table_max_new_tokens: 768 # Total number of tokens generated for predictions sent to wandb. Default is 128
 
 chat_template: chatml
-save_strategy: steps
-save_steps: 1000
+saves_per_epoch: 1
 save_total_limit: 1
 seed: 42
 debug:
 deepspeed:
+
 
 fsdp:
 fsdp_config:
