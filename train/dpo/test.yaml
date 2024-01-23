@@ -38,8 +38,8 @@ wandb_watch:
 wandb_name: phi-2-chatml-dpo
 wandb_log_model:
 
-gradient_accumulation_steps: 4
-micro_batch_size: 8
+gradient_accumulation_steps: 2
+micro_batch_size: 16
 num_epochs: 1
 optimizer: paged_adamw_8bit
 adam_beta1: 0.9
@@ -49,8 +49,7 @@ adam_epsilon: 0.00001
 lr_scheduler: cosine
 cosine_min_lr_ratio: 0.1
 learning_rate: 5.0e-7
-#warmup_ratio: 0.1
-warmup_steps: 10
+warmup_ratio: 0.1
 weight_decay: 0.01
 dpo_beta: 0.01
 
@@ -76,8 +75,7 @@ flash_attention: true
 #eval_table_max_new_tokens: 768 # Total number of tokens generated for predictions sent to wandb. Default is 128
 
 chat_template: chatml
-#saves_per_epoch: 1
-save_steps: 10000
+saves_per_epoch: 1
 save_total_limit: 1
 seed: 42
 debug:
