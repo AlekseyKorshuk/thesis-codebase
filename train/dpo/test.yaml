@@ -14,7 +14,7 @@ rl: dpo
 datasets:
   - path: AlekseyKorshuk/evol-codealpaca-dpo
     split: train
-    type: argilla_apply_chatml
+    type: chatml.argilla
 
 
 dataset_prepared_path:
