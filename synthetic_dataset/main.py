@@ -129,3 +129,16 @@ def _get_dpo_dataset(dataset, config):
 
 if __name__ == "__main__":
     generate_samples()
+
+
+from datasets import Dataset
+
+ds = Dataset.from_list(
+    [
+        {
+          "image": PIL.Image(…),
+          "image_mask": PIL.Image(…),
+        },
+    ]
+)
+ds.push_to_hub()

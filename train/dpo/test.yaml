@@ -38,8 +38,8 @@ wandb_watch:
 wandb_name: phi-2-chatml-dpo
 wandb_log_model:
 
-gradient_accumulation_steps: 2
-micro_batch_size: 16
+gradient_accumulation_steps: 4
+micro_batch_size: 8
 num_epochs: 1
 optimizer: paged_adamw_8bit
 adam_beta1: 0.9
