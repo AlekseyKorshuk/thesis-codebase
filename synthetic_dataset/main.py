@@ -106,21 +106,21 @@ def _get_dpo_dataset(dataset, config):
     for sample in tqdm.tqdm(dataset, desc="Collecting DPO dataset"):
         data.extend(
             [
-                {
-                    "instruction": sample["instruction"],
-                    "chosen_response": sample["better_response"],
-                    "rejected_response": sample["response"],
-                },
+                # {
+                #     "instruction": sample["instruction"],
+                #     "chosen_response": sample["better_response"],
+                #     "rejected_response": sample["response"],
+                # },
                 {
                     "instruction": sample["instruction"],
                     "chosen_response": sample["better_response"],
                     "rejected_response": sample["worse_response"],
                 },
-                {
-                    "instruction": sample["instruction"],
-                    "chosen_response": sample["response"],
-                    "rejected_response": sample["worse_response"],
-                },
+                # {
+                #     "instruction": sample["instruction"],
+                #     "chosen_response": sample["response"],
+                #     "rejected_response": sample["worse_response"],
+                # },
             ]
         )
     dpo_dataset = Dataset.from_list(data)
