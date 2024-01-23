@@ -52,7 +52,7 @@ learning_rate: 5.0e-7
 warmup_steps: 16
 #warmup_ratio: 0.1
 weight_decay: 0.01
-dpo_beta: 0.6
+dpo_beta: 0.1
 
 train_on_inputs: false
 group_by_length: false
