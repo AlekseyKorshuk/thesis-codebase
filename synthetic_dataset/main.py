@@ -103,24 +103,17 @@ def _get_sft_dataset(dataset, config):
 
 def _get_dpo_dataset(dataset, config):
     data = []
-    for sample in tqdm.tqdm(dataset, desc="Collecting DPO dataset"):
+    for i, sample in tqdm.tqdm(enumerate(dataset), total=len(dataset), desc="Collecting DPO dataset"):
+        rejected_response = sample[
+            "worse_response" if i % 2 == 0 else "response"
+        ]
         data.extend(
             [
-                # {
-                #     "instruction": sample["instruction"],
-                #     "chosen_response": sample["better_response"],
-                #     "rejected_response": sample["response"],
-                # },
                 {
                     "instruction": sample["instruction"],
                     "chosen_response": sample["better_response"],
-                    "rejected_response": sample["worse_response"],
+                    "rejected_response": rejected_response
                 },
-                # {
-                #     "instruction": sample["instruction"],
-                #     "chosen_response": sample["response"],
-                #     "rejected_response": sample["worse_response"],
-                # },
             ]
         )
     dpo_dataset = Dataset.from_list(data)
