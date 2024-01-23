@@ -10,7 +10,7 @@ load_in_8bit: false
 load_in_4bit: false
 strict: false
 
-rl: true
+rl: dpo
 datasets:
   - path: AlekseyKorshuk/evol-codealpaca-dpo
     split: train
