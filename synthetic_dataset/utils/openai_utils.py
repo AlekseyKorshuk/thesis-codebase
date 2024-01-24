@@ -41,8 +41,10 @@ def openai_completion(
         except OpenAIError as e:
             if "Please reduce" in str(e):
                 decoding_args.max_tokens = int(decoding_args.max_tokens * 0.95)
-            else:
+            elif "rate" in str(e).lower():
                 time.sleep(sleep_time)
+            else:
+                raise e
     return completions.choices[0].message.content
 
 

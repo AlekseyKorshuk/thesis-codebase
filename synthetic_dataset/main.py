@@ -10,7 +10,7 @@ from datasets import Dataset, load_dataset
 
 from utils import utils
 from utils.openai_utils import openai_completion, OpenAIDecodingArguments
-from prompts import baseline
+from prompts.v1 import system_prompt
 
 # Constants
 OPENAI_KEYS = [os.getenv("OPENAI_API_KEY", "")]
@@ -45,12 +45,12 @@ def process_sample(sample, config):
     if os.path.exists(output_file_path):
         with open(output_file_path) as json_file:
             json_data = json.load(json_file)
-    else:
-        json_data = {
-            "better_response": None,
-            "worse_response": None,
-        }
-    return json_data
+    # else:
+    #     json_data = {
+    #         "better_response": None,
+    #         "worse_response": None,
+    #     }
+    # return json_data
     if json_data is None or json_data["better_response"] == "":
         json_data = generate_completion(
             sample["instruction"],
@@ -65,14 +65,19 @@ def process_sample(sample, config):
 def generate_completion(instruction, response, config):
     user_content = {"instruction": instruction, "response": response}
     messages = [
-        {"role": "system", "content": baseline.system_prompt},
+        {"role": "system", "content": system_prompt},
         {"role": "user", "content": json.dumps(user_content, indent=1)}
     ]
     decoding_args = OpenAIDecodingArguments(**config["openai_generation_params"], api_key=random.choice(OPENAI_KEYS))
     json_response = None
-    while json_response is None or json_response["better_response"] == "":
+    max_retries = 5
+    while json_response is None or json_response.get("better_response", "") == "":
         openai_content = openai_completion(messages, decoding_args, config["model_name"], SLEEP_TIME)
         json_response = json.loads(openai_content)
+        max_retries -= 1
+        if max_retries == 0:
+            print("Max retries reached, returning empty response")
+            return {}
     return json_response
 
 
