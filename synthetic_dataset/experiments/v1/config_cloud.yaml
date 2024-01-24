@@ -2,7 +2,7 @@ seed_dataset_path: "AlekseyKorshuk/evol-codealpaca-seed"
 output_path: "/content/drive/MyDrive/evol-codealpaca-v1"
 dataset_path: "AlekseyKorshuk/evol-codealpaca-v1"
 model_name: "gpt-4-1106-preview"
-num_cpus: 25
+num_cpus: 50
 openai_generation_params:
   max_tokens: 4096
   temperature: 0.3
