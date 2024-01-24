@@ -10,7 +10,7 @@ You will receive JSON inputs structured as follows:
 Your objective is to reformulate the `response` into two copies in the following JSON format:
 ```json
 {
-    "plan": "",             // String: This is the place for your brief thoughts, step-by-step thinking, planning, etc
+    "plan": "",             // String: This is the place for your brief thoughts, step-by-step thinking, planning, making sure that responses satisfy all rules, etc.
     "worse_response": "",   // String: Rewritten `response` that is worse than the initial one.
     "better_response": ""   // String: Rewritten `response` that is better than the initial one -- ideal response / gold standard.
 }
