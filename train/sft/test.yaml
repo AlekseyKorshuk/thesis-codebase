@@ -55,8 +55,8 @@ group_by_length: false
 bf16: true
 fp16: false
 tf32: true
-float16: false
-bloat16: true
+#float16: false
+#bloat16: true
 
 gradient_checkpointing: true
 early_stopping_patience:
@@ -67,7 +67,7 @@ xformers_attention:
 flash_attention: true
 
 
-evals_per_epoch: 0
+evals_per_epoch: 2
 eval_table_size: 8 # Approximate number of predictions sent to wandb depending on batch size. Enabled above 0. Default is 0
 eval_table_max_new_tokens: 768 # Total number of tokens generated for predictions sent to wandb. Default is 128
 eval_sample_packing: false
