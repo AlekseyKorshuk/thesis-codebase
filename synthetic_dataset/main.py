@@ -46,7 +46,7 @@ def process_sample(sample, config):
     if os.path.exists(output_file_path):
         with open(output_file_path) as json_file:
             json_data = json.load(json_file)
-        return json_data
+        return postprocess_sample(json_data)
 
     if config.get("push_current", False):
         return {
@@ -60,7 +60,7 @@ def process_sample(sample, config):
     )
     with open(output_file_path, "w") as outfile:
         json.dump(json_data, outfile)
-    return json_data
+    return postprocess_sample(json_data)
 
 
 def generate_completion(instruction, response, config):
@@ -131,6 +131,11 @@ def _get_dpo_dataset(dataset, config):
     dpo_dataset = Dataset.from_list(data)
     return dpo_dataset
 
+def postprocess_sample(sample):
+    return {
+        "better_response": sample["better_response"],
+        "worse_response": sample["worse_response"],
+    }
 
 if __name__ == "__main__":
     generate_samples()
