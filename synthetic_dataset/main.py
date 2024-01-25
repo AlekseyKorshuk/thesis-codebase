@@ -133,9 +133,13 @@ def _get_dpo_dataset(dataset, config):
 
 
 def postprocess_sample(sample):
+    better_response = sample.get("better_response", "")
+    better_response = str(better_response) if type(better_response) == str else ""
+    worse_response = sample.get("worse_response", "")
+    worse_response = str(worse_response) if type(worse_response) == str else ""
     return {
-        "better_response": sample.get("better_response", ""),
-        "worse_response": sample.get("worse_response", ""),
+        "better_response": better_response,
+        "worse_response": worse_response,
     }
 
 
