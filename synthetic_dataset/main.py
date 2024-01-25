@@ -44,10 +44,12 @@ def process_sample(sample, config):
     sample_hash = utils.hash_sample(sample)
     output_file_path = os.path.join(config["output_path"], f"{sample_hash}.json")
     if os.path.exists(output_file_path):
-        with open(output_file_path) as json_file:
-            json_data = json.load(json_file)
-        print(postprocess_sample(json_data))
-        return postprocess_sample(json_data)
+        try:
+            with open(output_file_path) as json_file:
+                json_data = json.load(json_file)
+            return postprocess_sample(json_data)
+        except:
+            return postprocess_sample({})
 
     if config.get("push_current", False):
         return postprocess_sample({})
