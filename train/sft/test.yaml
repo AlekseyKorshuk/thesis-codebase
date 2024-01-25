@@ -52,19 +52,19 @@ weight_decay: 0.1
 
 train_on_inputs: false
 group_by_length: false
-bf16: true
+bf16: false
 fp16: false
-tf32: true
-#float16: false
-#bloat16: true
+tf32: false
+float16: false
+bloat16: true
 
 gradient_checkpointing: true
 early_stopping_patience:
 resume_from_checkpoint:
 local_rank:
 logging_steps: 1
-xformers_attention: true
-#flash_attention: true
+xformers_attention:
+flash_attention: true
 
 
 evals_per_epoch: 2
