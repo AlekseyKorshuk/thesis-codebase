@@ -83,7 +83,7 @@ def generate_completion(instruction, response, config):
 
 
 def push_to_hub(dataset, config):
-    dataset.push_to_hub(config["dataset_path"], private=True)
+    # dataset.push_to_hub(config["dataset_path"], private=True)
 
     sft_dataset = _get_sft_dataset(dataset, config)
     sft_dataset.push_to_hub(config["dataset_path"] + "-sft", private=True)
