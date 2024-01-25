@@ -46,13 +46,11 @@ def process_sample(sample, config):
     if os.path.exists(output_file_path):
         with open(output_file_path) as json_file:
             json_data = json.load(json_file)
+        print(postprocess_sample(json_data))
         return postprocess_sample(json_data)
 
     if config.get("push_current", False):
-        return {
-            "better_response": "",
-            "worse_response": "",
-        }
+        return postprocess_sample({})
     json_data = generate_completion(
         sample["instruction"],
         sample["response"],
