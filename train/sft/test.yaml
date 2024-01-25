@@ -3,7 +3,7 @@ model_type: AutoModelForCausalLM
 tokenizer_type: AutoTokenizer
 trust_remote_code: true
 
-hub_model_id: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt-test
+hub_model_id: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt-v1
 hub_strategy: every_save
 
 load_in_8bit: false
@@ -11,7 +11,7 @@ load_in_4bit: false
 strict: false
 
 datasets:
-  - path: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt
+  - path: AlekseyKorshuk/evol-codealpaca-v1-sft
     type: sharegpt
     conversation: chatml
 
@@ -33,10 +33,10 @@ lora_fan_in_fan_out:
 wandb_project: ui-thesis
 wandb_entity:
 wandb_watch:
-wandb_name: phi-2-chatml-test
+wandb_name: phi-2-chatml-v1
 wandb_log_model:
 
-gradient_accumulation_steps: 1
+gradient_accumulation_steps: 2
 micro_batch_size: 16
 num_epochs: 1
 optimizer: paged_adamw_8bit
@@ -67,8 +67,8 @@ xformers_attention:
 flash_attention: true
 
 
-evals_per_epoch: 5
-eval_table_size: 8 # Approximate number of predictions sent to wandb depending on batch size. Enabled above 0. Default is 0
+evals_per_epoch: 2
+eval_table_size: 16 # Approximate number of predictions sent to wandb depending on batch size. Enabled above 0. Default is 0
 eval_table_max_new_tokens: 768 # Total number of tokens generated for predictions sent to wandb. Default is 128
 
 chat_template: chatml
