@@ -10,7 +10,7 @@ from datasets import Dataset, load_dataset
 
 from utils import utils
 from utils.openai_utils import openai_completion, OpenAIDecodingArguments
-from prompts.v1 import system_prompt
+from prompts import v1 as prompts
 
 # Constants
 OPENAI_KEYS = [os.getenv("OPENAI_API_KEY", "")]
@@ -21,9 +21,11 @@ assert len(OPENAI_KEYS) > 0
 
 @click.command()
 @click.option("--config_path", type=str)
-def generate_samples(config_path: str):
+@click.option("--push_current", type=bool, is_flag=True)
+def generate_samples(config_path: str, push_current: bool):
     """Entry point for the CLI."""
     config = utils.load_yaml(config_path)
+    config["push_current"] = push_current
     resulting_dataset = run_sample_generation(config)
     push_to_hub(resulting_dataset, config)
 
@@ -41,22 +43,21 @@ def run_sample_generation(config: Dict[str, Any]):
 def process_sample(sample, config):
     sample_hash = utils.hash_sample(sample)
     output_file_path = os.path.join(config["output_path"], f"{sample_hash}.json")
-    json_data = None
     if os.path.exists(output_file_path):
         with open(output_file_path) as json_file:
             json_data = json.load(json_file)
-    # else:
-    #     json_data = {
-    #         "better_response": None,
-    #         "worse_response": None,
-    #     }
-    # return json_data
-    if json_data is None or json_data["better_response"] == "":
-        json_data = generate_completion(
-            sample["instruction"],
-            sample["response"],
-            config
-        )
+        return json_data
+
+    if config.get("push_current", False):
+        return {
+            "better_response": None,
+            "worse_response": None,
+        }
+    json_data = generate_completion(
+        sample["instruction"],
+        sample["response"],
+        config
+    )
     with open(output_file_path, "w") as outfile:
         json.dump(json_data, outfile)
     return json_data
@@ -65,7 +66,7 @@ def process_sample(sample, config):
 def generate_completion(instruction, response, config):
     user_content = {"instruction": instruction, "response": response}
     messages = [
-        {"role": "system", "content": system_prompt},
+        {"role": "system", "content": prompts.system_prompt},
         {"role": "user", "content": json.dumps(user_content, indent=1)}
     ]
     decoding_args = OpenAIDecodingArguments(**config["openai_generation_params"], api_key=random.choice(OPENAI_KEYS))
@@ -92,9 +93,14 @@ def push_to_hub(dataset, config):
 
 
 def _get_sft_dataset(dataset, config):
+    system_counter = 0
+
     def _process(sample):
+        nonlocal system_counter
+        system_counter = (system_counter + 1) % len(prompts.chatml_system_prompts)
         new_sample = {
             "conversations": [
+                {"from": "system", "value": prompts.chatml_system_prompts[system_counter]},
                 {"from": "human", "value": sample["instruction"]},
                 {"from": "gpt", "value": sample["better_response"]},
             ]
@@ -115,9 +121,10 @@ def _get_dpo_dataset(dataset, config):
         data.extend(
             [
                 {
-                    "instruction": sample["instruction"],
-                    "chosen_response": sample["better_response"],
-                    "rejected_response": rejected_response
+                    "system": prompts.chatml_system_prompts[i % len(prompts.chatml_system_prompts)],
+                    "question": sample["instruction"],
+                    "chosen": sample["better_response"],
+                    "rejected": rejected_response
                 },
             ]
         )

@@ -43,8 +43,12 @@ def openai_completion(
                 decoding_args.max_tokens = int(decoding_args.max_tokens * 0.95)
             elif "rate" in str(e).lower():
                 time.sleep(sleep_time)
+            elif " takes 1 positional" in str(e).lower():
+                print("OpenAIError: ", e)
             else:
                 raise e
+        except TypeError as e:
+            print(e)
     return completions.choices[0].message.content
 
 

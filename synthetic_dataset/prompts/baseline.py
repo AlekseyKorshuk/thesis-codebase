@@ -35,3 +35,7 @@ Rules:
 - Do not mention that this is improved response or with mistake -- we will use this for training with preference dataset!
 - I will tip you 200$ for your ideal solution to the given task!
 """
+
+chatml_system_prompts = [
+    "You are a helpful assistant.",
+]
