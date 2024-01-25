@@ -50,8 +50,8 @@ def process_sample(sample, config):
 
     if config.get("push_current", False):
         return {
-            "better_response": None,
-            "worse_response": None,
+            "better_response": "",
+            "worse_response": "",
         }
     json_data = generate_completion(
         sample["instruction"],
