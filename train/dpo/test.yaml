@@ -1,4 +1,4 @@
-base_model: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt-test
+base_model: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt-v1
 model_type: AutoModelForCausalLM
 tokenizer_type: AutoTokenizer
 trust_remote_code: true
@@ -12,7 +12,7 @@ strict: false
 
 rl: dpo
 datasets:
-  - path: AlekseyKorshuk/evol-codealpaca-dpo
+  - path: AlekseyKorshuk/evol-codealpaca-v1-dpo
     split: train
     type: chatml.intel
 
@@ -40,7 +40,7 @@ wandb_log_model:
 
 gradient_accumulation_steps: 4
 micro_batch_size: 8
-num_epochs: 1
+num_epochs: 3
 optimizer: paged_adamw_8bit
 adam_beta1: 0.9
 adam_beta2: 0.95
@@ -52,7 +52,7 @@ learning_rate: 5.0e-7
 warmup_steps: 16
 #warmup_ratio: 0.1
 weight_decay: 0.01
-dpo_beta: 0.1
+dpo_beta: 0.01
 
 train_on_inputs: false
 group_by_length: false
@@ -87,9 +87,3 @@ deepspeed:
 fsdp:
 fsdp_config:
 resize_token_embeddings_to_32x: true
-
-special_tokens:
-  eos_token: "<|im_end|>"
-  pad_token: "<|endoftext|>"
-tokens:
-  - "<|im_start|>"
