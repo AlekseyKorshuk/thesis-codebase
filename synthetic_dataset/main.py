@@ -131,11 +131,13 @@ def _get_dpo_dataset(dataset, config):
     dpo_dataset = Dataset.from_list(data)
     return dpo_dataset
 
+
 def postprocess_sample(sample):
     return {
         "better_response": sample["better_response"],
         "worse_response": sample["worse_response"],
     }
+
 
 if __name__ == "__main__":
     generate_samples()
