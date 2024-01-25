@@ -16,7 +16,7 @@ datasets:
     conversation: chatml
 
 dataset_prepared_path:
-val_set_size: 0.001
+val_set_size: 0.01
 output_dir: ./output
 
 sequence_len: 2048
@@ -70,6 +70,7 @@ flash_attention: true
 evals_per_epoch: 2
 eval_table_size: 16 # Approximate number of predictions sent to wandb depending on batch size. Enabled above 0. Default is 0
 eval_table_max_new_tokens: 768 # Total number of tokens generated for predictions sent to wandb. Default is 128
+eval_sample_packing: false
 
 chat_template: chatml
 saves_per_epoch: 1
