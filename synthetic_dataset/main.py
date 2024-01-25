@@ -134,8 +134,8 @@ def _get_dpo_dataset(dataset, config):
 
 def postprocess_sample(sample):
     return {
-        "better_response": sample["better_response"],
-        "worse_response": sample["worse_response"],
+        "better_response": sample.get("better_response", ""),
+        "worse_response": sample.get("worse_response", ""),
     }
 
 
