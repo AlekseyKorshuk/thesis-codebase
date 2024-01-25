@@ -3,7 +3,7 @@ model_type: AutoModelForCausalLM
 tokenizer_type: AutoTokenizer
 trust_remote_code: true
 
-hub_model_id: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt-test-dpo
+hub_model_id: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt-v1-dpo
 hub_strategy: every_save
 
 load_in_8bit: false
