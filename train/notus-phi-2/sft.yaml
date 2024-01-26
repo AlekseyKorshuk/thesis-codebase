@@ -11,9 +11,9 @@ load_in_4bit: false
 strict: false
 
 datasets:
-  - path: HuggingFaceH4/ultrachat_200k
+  - path: AlekseyKorshuk/ultrachat_200k
     split: train_sft
-    type: ultrachat
+    type: sharegpt.load_role
     conversation: chatml
 
 dataset_prepared_path:
