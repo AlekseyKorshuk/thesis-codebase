@@ -13,7 +13,7 @@ strict: false
 datasets:
   - path: HuggingFaceH4/ultrachat_200k
     split: train_sft
-    type: sharegpt.load_role
+    type: ultrachat
     conversation: chatml
 
 dataset_prepared_path:
