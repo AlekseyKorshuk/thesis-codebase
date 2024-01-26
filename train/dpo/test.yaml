@@ -1,9 +1,9 @@
-base_model: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt-v1
+base_model: AlekseyKorshuk/evol-codealpaca-v1-sft-4e-5
 model_type: AutoModelForCausalLM
 tokenizer_type: AutoTokenizer
 trust_remote_code: true
 
-hub_model_id: AlekseyKorshuk/evol-codealpaca-pairwise-sharegpt-v1-dpo
+hub_model_id: AlekseyKorshuk/evol-codealpaca-v1-sft-4e-5-dpo-3ep
 hub_strategy: every_save
 
 load_in_8bit: false
