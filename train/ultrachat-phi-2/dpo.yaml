@@ -86,3 +86,9 @@ deepspeed:
 fsdp:
 fsdp_config:
 resize_token_embeddings_to_32x: true
+
+special_tokens:
+  eos_token: "<|im_end|>"
+  pad_token: "<|endoftext|>"
+tokens:
+  - "<|im_start|>"
