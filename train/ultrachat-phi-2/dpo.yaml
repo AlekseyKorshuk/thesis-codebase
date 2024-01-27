@@ -13,7 +13,7 @@ strict: false
 rl: dpo
 datasets:
   - path: argilla/ultrafeedback-binarized-preferences
-    split: train_prefs
+    split: train
     type: chatml.argilla
 
 
