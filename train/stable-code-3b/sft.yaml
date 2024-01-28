@@ -54,7 +54,7 @@ weight_decay: 0.1
 train_on_inputs: false
 group_by_length: false
 bf16: false
-fp16: false
+fp16: true
 tf32: false
 float16: true
 
