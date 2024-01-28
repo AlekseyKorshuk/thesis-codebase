@@ -1,0 +1,90 @@
+base_model: bigcode/starcoderbase-3b
+model_type: AutoModelForCausalLM
+tokenizer_type: AutoTokenizer
+trust_remote_code: true
+
+hub_model_id: AlekseyKorshuk/ultrachat-starcoderbase-3b-sft-chatml
+hub_strategy: every_save
+
+load_in_8bit: false
+load_in_4bit: false
+strict: false
+
+datasets:
+  - path: AlekseyKorshuk/ultrachat_200k
+    split: train_sft
+    type: sharegpt
+    conversation: chatml
+
+dataset_prepared_path:
+val_set_size: 0.001
+output_dir: ./output
+
+sequence_len: 2048
+sample_packing: false
+pad_to_sequence_len:
+
+lora_r:
+lora_alpha:
+lora_dropout:
+lora_target_modules:
+lora_target_linear:
+lora_fan_in_fan_out:
+
+wandb_project: ui-thesis
+wandb_entity:
+wandb_watch:
+wandb_name: starcoderbase-3b-sft-chatml
+wandb_log_model:
+
+gradient_accumulation_steps: 2
+micro_batch_size: 16
+num_epochs: 1
+optimizer: paged_adamw_8bit
+adam_beta1: 0.9
+adam_beta2: 0.95
+max_grad_norm: 1.0
+adam_epsilon: 0.00001
+lr_scheduler: cosine
+cosine_min_lr_ratio: 0.1
+learning_rate: 2e-5
+warmup_ratio: 0.1
+weight_decay: 0.1
+
+train_on_inputs: false
+group_by_length: false
+bf16: true
+fp16: false
+tf32: true
+#float16: true
+
+gradient_checkpointing: true
+early_stopping_patience:
+resume_from_checkpoint:
+local_rank:
+logging_steps: 1
+xformers_attention:
+flash_attention: true
+
+
+evals_per_epoch: 5
+eval_table_size: 8 # Approximate number of predictions sent to wandb depending on batch size. Enabled above 0. Default is 0
+eval_table_max_new_tokens: 768 # Total number of tokens generated for predictions sent to wandb. Default is 128
+eval_sample_packing: false
+
+chat_template: chatml
+saves_per_epoch: 5
+save_total_limit: 1
+seed: 42
+debug:
+deepspeed:
+
+fsdp:
+fsdp_config:
+resize_token_embeddings_to_32x: true
+
+special_tokens:
+  eos_token: "<|im_end|>"
+  pad_token: "<|endoftext|>"
+tokens:
+  - "<|im_start|>"
