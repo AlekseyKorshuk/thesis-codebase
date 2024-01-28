@@ -43,7 +43,7 @@ num_epochs: 1
 optimizer: paged_adamw_8bit
 adam_beta1: 0.9
 adam_beta2: 0.95
-max_grad_norm: 1.0
+#max_grad_norm: 1.0
 adam_epsilon: 0.00001
 lr_scheduler: cosine
 cosine_min_lr_ratio: 0.1
