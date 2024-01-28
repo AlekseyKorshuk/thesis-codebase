@@ -53,9 +53,9 @@ weight_decay: 0.1
 
 train_on_inputs: false
 group_by_length: false
-bf16: true
-fp16: false
-tf32: true
+bf16: false
+fp16: true
+tf32: false
 
 gradient_checkpointing: true
 early_stopping_patience:
