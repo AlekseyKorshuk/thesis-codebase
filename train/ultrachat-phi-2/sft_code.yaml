@@ -1,4 +1,4 @@
-base_model: AlekseyKorshuk/ultrachat-phi-2-dpo-chatml
+base_model: AlekseyKorshuk/ultrachat-phi-2-sft-chatml
 model_type: AutoModelForCausalLM
 tokenizer_type: AutoTokenizer
 trust_remote_code: true
