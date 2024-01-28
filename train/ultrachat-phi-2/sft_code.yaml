@@ -16,7 +16,7 @@ datasets:
     conversation: chatml
 
 dataset_prepared_path:
-val_set_size: 0
+val_set_size: 0.005
 output_dir: ./output
 
 sequence_len: 2048
@@ -52,9 +52,10 @@ weight_decay: 0.1
 
 train_on_inputs: false
 group_by_length: false
-bf16: true
+bf16: false
 fp16: false
-tf32: true
+tf32: false
+float16: true
 
 gradient_checkpointing: true
 early_stopping_patience:
@@ -65,7 +66,7 @@ xformers_attention:
 flash_attention: true
 
 
-evals_per_epoch: 0
+evals_per_epoch: 4
 eval_table_size: 8 # Approximate number of predictions sent to wandb depending on batch size. Enabled above 0. Default is 0
 eval_table_max_new_tokens: 768 # Total number of tokens generated for predictions sent to wandb. Default is 128
 eval_sample_packing: false
