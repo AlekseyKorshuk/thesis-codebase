@@ -57,7 +57,7 @@ dpo_beta: 0.01
 train_on_inputs: false
 group_by_length: false
 bf16: false
-fp16: true
+fp16: false
 tf32: false
 float16: true
 
