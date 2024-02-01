@@ -59,7 +59,7 @@ group_by_length: false
 bf16: false
 fp16: true
 tf32: false
-#float16: true
+float16: true
 
 gradient_checkpointing: true
 early_stopping_patience:
