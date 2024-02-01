@@ -14,7 +14,7 @@ rl: dpo
 datasets:
   - path: AlekseyKorshuk/evol-codealpaca-v1-dpo
     split: train
-    type: wizardcoder.argilla
+    type: wizardcoder.intel
 
 
 dataset_prepared_path:
