@@ -60,6 +60,7 @@ bf16: false
 fp16: true
 tf32: false
 float16: true
+bfloat16: false
 
 gradient_checkpointing: true
 early_stopping_patience:
