@@ -1,9 +1,9 @@
-base_model: WizardLM/WizardCoder-1B-V1.0
+base_model: WizardLM/WizardCoder-3B-V1.0
 model_type: AutoModelForCausalLM
 tokenizer_type: AutoTokenizer
 trust_remote_code: true
 
-hub_model_id: AlekseyKorshuk/WizardCoder-1B-V1.0-dpo-beta-0.01
+hub_model_id: AlekseyKorshuk/WizardCoder-3B-V1.0-dpo-beta-0.01
 hub_strategy: every_save
 
 load_in_8bit: false
@@ -34,7 +34,7 @@ lora_fan_in_fan_out:
 wandb_project: ui-thesis
 wandb_entity:
 wandb_watch:
-wandb_name: WizardCoder-1B-V1.0-dpo-beta-0.01
+wandb_name: WizardCoder-3B-V1.0-dpo-beta-0.01
 wandb_log_model:
 
 gradient_accumulation_steps: 4
@@ -55,10 +55,10 @@ dpo_beta: 0.01
 
 train_on_inputs: false
 group_by_length: false
-#bf16: false
-#fp16: true
-#tf32: false
-float16: true
+bf16: true
+fp16: false
+tf32: true
+#float16: false
 #bfloat16: false
 
 gradient_checkpointing: true
