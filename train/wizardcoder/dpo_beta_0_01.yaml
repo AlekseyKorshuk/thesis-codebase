@@ -56,9 +56,9 @@ dpo_beta: 0.01
 
 train_on_inputs: false
 group_by_length: false
-bf16: true
-fp16: false
-tf32: true
+bf16: false
+fp16: true
+tf32: false
 #float16: true
 
 gradient_checkpointing: true
